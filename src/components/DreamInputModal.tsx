@@ -4,7 +4,6 @@ import { useUIStore } from "../stores/uiStore";
 import { useDreamStore } from "../stores/dreamStore";
 import { fetchDreamResult } from "../utils/fetchDreamResult";
 import { getDreamPrompt } from "../utils/getDreamPrompt";
-import { Dream } from "../types/dream";
 
 const Overlay = styled.div`
   position: fixed;
