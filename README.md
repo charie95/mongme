@@ -1,41 +1,55 @@
-<<<<<<< HEAD
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌙 MongMe — 나만의 감성 꿈 일기장
 
-## Getting Started
+**몽미(MongMe)**는 오늘 밤 당신의 꿈 한 조각까지 소중하게 기록하고,  
+AI에게 해몽까지 받아볼 수 있는 새로운 감성의 꿈 일기장입니다.
 
-First, run the development server:
+## 🧑‍🚀 몽미를 만든 이유
+
+사람은 하루에도 여러 번, 잊히기 쉬운 신기루 같은 꿈을 꿉니다.  
+몽미는 "어젯밤 내 꿈, 무슨 의미였을까?"  
+"이 반복되는 꿈, 혹시 나에게 전하는 메시지는 아닐까?"  
+라는 당신의 궁금증에서 시작되었습니다.
+
+**MongMe**는 단순한 꿈 기록 앱이 아닙니다.  
+- 당신의 꿈, 감정, 상상, 고민까지 담아내는 **자아 탐색의 공간**  
+- AI가 해몽과 조언을 건네주는 **친구 같은 일기장**  
+- 오늘의 감정, 상징, 상황 태그로 **나만의 꿈 데이터베이스**까지  
+직관적이고 따뜻한 UI/UX로 **기록하는 순간 자체가 특별한 경험**이 됩니다.
+
+---
+
+## ✨ 주요 기능
+
+- **꿈 기록하기**  
+  한 줄 키워드부터 긴 이야기까지, 자유롭게 꿈을 남겨보세요.
+- **AI 해몽 서비스**  
+  OpenAI 기반 AI가 꿈의 의미, 감정, 심리적 상징, 조언까지 함께 알려줍니다.
+- **꿈 태그 자동 분류**  
+  AI가 감정, 카테고리, 상황 태그를 자동으로 분석해 뱃지 형태로 보여줘요.
+- **꿈 일기장 관리**  
+  내가 기록한 꿈을 카드형 리스트로 한눈에 볼 수 있고, 카드 클릭 시 상세 해몽까지 확인!
+- **데이터 안전 저장**  
+  내 브라우저에 안전하게 저장되어 언제든 다시 볼 수 있습니다.
+- **반응형 UI**  
+  PC와 모바일 어디서든 깔끔하게 이용할 수 있어요.
+
+---
+
+## 🛠️ 사용 기술
+
+- **Next.js** — 빠르고 SEO 친화적인 React 프레임워크
+- **TypeScript** — 타입 안정성과 개발 생산성 향상
+- **Zustand** — 심플한 상태관리
+- **styled-components** — 감각적인 스타일링
+- **OpenAI API** — GPT 기반 자연어 해몽
+- **Vercel** — 쉽고 빠른 배포
+
+---
+
+## 🚀 시작 방법
 
 ```bash
+git clone https://github.com/charie95/mongme.git
+cd mongme
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-=======
-# mongme
-ai 해몽
->>>>>>> 82b26d7d678b7960cdb0d0435d270ce2e35325df
