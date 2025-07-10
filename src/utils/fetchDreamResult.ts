@@ -49,12 +49,12 @@ export async function fetchDreamResult(prompt: string): Promise<DreamAIResult> {
           categoryTags: parsed.categoryTags || [],
           situationTags: parsed.situationTags || [],
         };
-      } catch (_) {
+      } catch {
         // 파싱 실패시 예외 처리
         result.dreamResult = "AI 결과를 읽을 수 없습니다.";
       }
     }
-  } catch (_) {
+  } catch {
     result.dreamResult = "AI 해몽 결과를 받아오지 못했습니다.";
   }
   return result;
