@@ -1,20 +1,12 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
 import DreamInputModal from "../components/DreamInputModal";
 import { useUIStore } from "../stores/uiStore";
 import { useRouter } from "next/navigation";
-import styled, { keyframes } from "styled-components";
-import React, { useEffect, useState } from "react";
+import styled, { keyframes, css } from "styled-components";
 
-// 웨이브 애니메이션
-const wave = keyframes`
-  0%, 100% { transform: translateY(0);}
-  20% { transform: translateY(-10px);}
-  40% { transform: translateY(7px);}
-  60% { transform: translateY(-4px);}
-  80% { transform: translateY(4px);}
-`;
-
+// 배경 비디오 스타일
 const BgVideo = styled.video`
   position: fixed;
   top: 0;
@@ -23,7 +15,22 @@ const BgVideo = styled.video`
   height: 100vh;
   object-fit: cover;
   z-index: -1;
-  filter: grayscale(0.15) blur(2px) brightness(0.7);
+  filter: grayscale(0.13) blur(2.3px) brightness(0.74);
+
+  @media (max-width: 600px) {
+    filter: grayscale(0.18) blur(1.2px) brightness(0.75);
+  }
+`;
+
+// 웨이브 효과 (CSS)
+const wave = keyframes`
+  0% { transform: translateY(0); }
+  18% { transform: translateY(-8%); }
+  37% { transform: translateY(7%);}
+  55% { transform: translateY(-3%);}
+  70% { transform: translateY(2%);}
+  82% { transform: translateY(-1%);}
+  100% { transform: translateY(0);}
 `;
 
 const Wrapper = styled.div`
@@ -34,18 +41,23 @@ const Wrapper = styled.div`
   align-items: center;
   position: relative;
   z-index: 1;
+  padding: 0 1rem;
 `;
 
-// 타이틀 스타일
 const TitleWrap = styled.div`
   text-align: center;
   min-height: 8.4rem;
   width: 100%;
   margin-bottom: 1.2rem;
   position: relative;
+
+  @media (max-width: 600px) {
+    min-height: 4.2rem;
+    margin-bottom: 0.7rem;
+  }
 `;
 
-const AnimatedTitle = styled.h1`
+const AnimatedTitle = styled.h1<{ show: boolean }>`
   font-size: 5.2rem;
   font-family: "Pretendard", "SUIT", sans-serif;
   font-weight: 700;
@@ -55,46 +67,53 @@ const AnimatedTitle = styled.h1`
   display: flex;
   justify-content: center;
   gap: 0.07em;
-  transition: opacity 0.7s;
-  line-height: 1.13;
-`;
-
-const WaveChar = styled.span<{ delay: number }>`
-  display: inline-block;
-  animation: ${wave} 2.2s cubic-bezier(0.44, 0.16, 0.41, 1.07) infinite;
-  animation-delay: ${({ delay }) => delay}s;
-`;
-
-const Fade = styled.div<{ show: boolean }>`
   opacity: ${({ show }) => (show ? 1 : 0)};
-  transition: opacity 0.7s;
+  transition: opacity 0.8s;
   position: absolute;
-  width: 100%;
-  left: 0;
   top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
   pointer-events: none;
+
+  /* 모바일 대응 */
+  @media (max-width: 600px) {
+    font-size: 2.2rem;
+    gap: 0.02em;
+    min-width: unset;
+  }
+`;
+
+const waveChar = css`
+  display: inline-block;
+  animation: ${wave} 2.8s infinite ease-in-out;
 `;
 
 const SubTitle = styled.p`
-  font-size: 1.18rem;
+  font-size: 1.13rem;
   color: rgb(222, 223, 226);
   margin-top: 0.2rem;
-  margin-bottom: 2.9rem;
+  margin-bottom: 2.4rem;
   letter-spacing: 0.01em;
   text-shadow: 0 2px 8px #0002;
   line-height: 1.5;
+
+  @media (max-width: 600px) {
+    font-size: 0.96rem;
+    margin-bottom: 1.6rem;
+  }
 `;
 
 const Button = styled.button`
-  font-size: 1.19rem;
+  font-size: 1.12rem;
   padding: 1.07rem 3.2rem;
-  background: rgba(40, 40, 50, 0.75);
+  background: rgba(40, 40, 50, 0.72);
   color: #fff;
   border-radius: 2rem;
   border: none;
   cursor: pointer;
   font-weight: 700;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.19);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.17);
   backdrop-filter: blur(2px);
   transition: background 0.16s, box-shadow 0.13s, color 0.16s;
 
@@ -104,6 +123,11 @@ const Button = styled.button`
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.24);
     letter-spacing: 0.03em;
   }
+
+  @media (max-width: 600px) {
+    font-size: 0.98rem;
+    padding: 0.8rem 1.7rem;
+  }
 `;
 
 const TopNav = styled.nav`
@@ -111,6 +135,11 @@ const TopNav = styled.nav`
   top: 2.2rem;
   right: 3.3rem;
   z-index: 2;
+
+  @media (max-width: 600px) {
+    top: 1rem;
+    right: 1.2rem;
+  }
 `;
 
 const NavBtn = styled.button`
@@ -130,45 +159,59 @@ const NavBtn = styled.button`
     background: rgba(160, 162, 170, 0.13);
     color: #ddd;
   }
+
+  @media (max-width: 600px) {
+    font-size: 0.91rem;
+    padding: 0.55rem 1.1rem;
+  }
 `;
 
-// ===== 타이틀 전환 + 웨이브 효과 =====
-function MongMeTitle() {
-  const [showFirst, setShowFirst] = useState(true);
+// 웨이브 효과가 들어간 글자 컴포넌트
+const WaveChar = styled.span<{ delay: number }>`
+  ${waveChar};
+  animation-delay: ${({ delay }) => delay}s;
+`;
 
-  useEffect(() => {
-    const timer = setTimeout(() => setShowFirst(false), 1800); // 1.8초 뒤 전환
-    return () => clearTimeout(timer);
-  }, []);
+const TITLES = [
+  { text: "MongMe", wave: false },
+  { text: "꿈의 의미 夢味", wave: true },
+];
 
-  return (
-    <TitleWrap>
-      <Fade show={showFirst}>
-        <AnimatedTitle>
-          {"MongMe".split("").map((char, i) => (
-            <WaveChar key={i} delay={i * 0.13}>
-              {char}
-            </WaveChar>
-          ))}
-        </AnimatedTitle>
-      </Fade>
-      <Fade show={!showFirst}>
-        <AnimatedTitle>
-          {"꿈의 의미 夢味".split("").map((char, i) => (
-            <WaveChar key={i} delay={i * 0.12}>
-              {char}
-            </WaveChar>
-          ))}
-        </AnimatedTitle>
-      </Fade>
-    </TitleWrap>
-  );
-}
-
-// ===== 메인 컴포넌트 =====
 export default function Home() {
   const openModal = useUIStore((state) => state.openModal);
   const router = useRouter();
+
+  // 애니메이션 상태
+  const [showFirst, setShowFirst] = useState(true);
+
+  // 타이틀 전환 (3초 간격)
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setShowFirst((prev) => !prev);
+    }, 3500);
+    return () => clearInterval(timer);
+  }, []);
+
+  // 타이틀을 웨이브효과 문자로 분리
+  function renderTitle(str: string, withWave: boolean) {
+    return str.split("").map((ch, i) =>
+      withWave && ch !== " " ? (
+        <WaveChar key={i} delay={i * 0.07}>
+          {ch}
+        </WaveChar>
+      ) : (
+        <span
+          key={i}
+          style={{
+            display: "inline-block",
+            width: ch === " " ? "0.5em" : undefined,
+          }}
+        >
+          {ch}
+        </span>
+      )
+    );
+  }
 
   return (
     <Wrapper>
@@ -185,7 +228,14 @@ export default function Home() {
       <TopNav>
         <NavBtn onClick={() => router.push("/dreams")}>꿈 일기장 이동</NavBtn>
       </TopNav>
-      <MongMeTitle />
+      <TitleWrap>
+        <AnimatedTitle show={showFirst}>
+          {renderTitle(TITLES[0].text, TITLES[0].wave)}
+        </AnimatedTitle>
+        <AnimatedTitle show={!showFirst}>
+          {renderTitle(TITLES[1].text, TITLES[1].wave)}
+        </AnimatedTitle>
+      </TitleWrap>
       <SubTitle>나의 꿈을 기록하고, AI로 해몽받는 감성 일기장</SubTitle>
       <Button onClick={openModal}>꿈풀이하기</Button>
       <DreamInputModal />
