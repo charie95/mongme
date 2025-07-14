@@ -57,7 +57,7 @@ const TitleWrap = styled.div`
   }
 `;
 
-const AnimatedTitle = styled.h1<{ show: boolean }>`
+const AnimatedTitle = styled.h1<{ $show: boolean }>`
   font-size: 5.2rem;
   font-family: "Pretendard", "SUIT", sans-serif;
   font-weight: 700;
@@ -67,7 +67,7 @@ const AnimatedTitle = styled.h1<{ show: boolean }>`
   display: flex;
   justify-content: center;
   gap: 0.07em;
-  opacity: ${({ show }) => (show ? 1 : 0)};
+  opacity: ${({ $show }) => ($show ? 1 : 0)};
   transition: opacity 0.8s;
   position: absolute;
   top: 0;
@@ -229,10 +229,10 @@ export default function Home() {
         <NavBtn onClick={() => router.push("/dreams")}>꿈 일기장 이동</NavBtn>
       </TopNav>
       <TitleWrap>
-        <AnimatedTitle show={showFirst}>
+        <AnimatedTitle $show={showFirst}>
           {renderTitle(TITLES[0].text, TITLES[0].wave)}
         </AnimatedTitle>
-        <AnimatedTitle show={!showFirst}>
+        <AnimatedTitle $show={!showFirst}>
           {renderTitle(TITLES[1].text, TITLES[1].wave)}
         </AnimatedTitle>
       </TitleWrap>
